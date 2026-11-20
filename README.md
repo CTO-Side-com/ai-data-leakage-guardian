@@ -21,7 +21,7 @@
 ██║   ██║██║   ██║██╔══██║██╔══██╗██║  ██║██║██╔══██║██║╚██╗██║
 ╚██████╔╝╚██████╔╝██║  ██║██║  ██║██████╔╝██║██║  ██║██║ ╚████║
  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═════╝ ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝
-   evidence-first data-leakage reviews for AI apps, run by your agent
+   evidence-first AI data-leakage reviews, run by your agent
 ```
 
 **An agent skill that traces where protected data goes inside an AI application (prompts, retrieval,<br/>model and tool calls, logs, traces, datasets), tests the boundaries with synthetic canaries,<br/>and hands you a source-to-destination register, a PDF report and tasks for Jira, Notion or Slack.**
@@ -80,8 +80,8 @@ Point your coding agent at an AI application and ask where customer data, creden
 
 ```text
  [1] scope ──► [2] map data flows ──► [3] scan ──► [4] plan ──► [5] synthetic capture
-                                                                     (opt-in)
-                                                                        │
+                                                                            (opt-in)
+                                                                                │
  [9] recheck ◄── [8] report + tasks ◄── [7] validate ◄── [6] record evidence ◄──┘
       │                                                        ▲
       └──────── a change resets the objectives it touches ─────┘
@@ -218,7 +218,7 @@ python3 "$SKILL_DIR/scripts/guardian.py" report --assessment leakage-output/asse
 python3 "$SKILL_DIR/scripts/guardian.py" tasks --assessment leakage-output/assessment.json --out leakage-output/tasks
 ```
 
-`init` starts every objective at `insufficient_evidence` with empty sink and flow lists. `init`, `scan`, `plan` and `recheck` refuse to overwrite an existing file; `report` and `tasks` replace their own output files in the folder you give them. Add `leakage-output/` to your `.gitignore`: real assessments describe where your data leaks.
+`init` starts every objective at `insufficient_evidence` with empty sink and flow lists. `init`, `scan`, `plan` and `recheck` (and `canary_audit.py --out`) refuse to overwrite an existing file; `report` and `tasks` replace their own output files in the folder you give them. Add `leakage-output/` to your `.gitignore`: real assessments describe where your data leaks.
 
 ## Example
 
@@ -267,7 +267,7 @@ The objectives live in [`checks.json`](skills/ai-data-leakage-guardian/reference
 
 ## Source-to-destination register
 
-The assessment holds two lists that the report renders first.
+The assessment holds two lists, which the report renders right after the scope section.
 
 - **Sinks**: one per destination, with `kind`, `location_ref`, `purpose`, `approval_status` (`unverified`, `approved` or `denied`), `approved_data_classes`, `reviewer`, `approval_ref`, and separate `retention_evidence_ref` and `training_evidence_ref`. An `approved` sink needs a reviewer and an approval reference.
 - **Data flows**: one per edge, with `source`, `sink_id` (which must name a known sink), `purpose`, `data_classes`, `transformations` and `evidence_ref`.
@@ -297,11 +297,11 @@ The validator checks structure, not truth. Whether a reference is real, a captur
 | Rule | Objective | Hint | Looks for |
 |---|---|---|---|
 | `prompt-in-logs` | OBS-001 | high | `logger.`/`logging.` `info`/`debug`/`error`, `console.log`/`debug` or `print(` with `prompt`, `messages`, `conversation` or `chat_history` |
-| `request-body-logging` | OBS-001 | high | `logger.`, `console.` or `print(` with `request.body`, `request.json` or `req.body` |
-| `raw-model-output-logging` | OBS-002 | medium | `logger.`, `console.` or `print(` with `completion`, `model_response`, `llm_response` or `tool_result` |
+| `request-body-logging` | OBS-001 | high | `logger.info`/`debug`/`error`, `console.log`/`debug` or `print(` with `request.body`, `request.json` or `req.body` |
+| `raw-model-output-logging` | OBS-002 | medium | `logger.info`/`debug`/`error`, `console.log`/`debug` or `print(` with `completion`, `model_response`, `llm_response` or `tool_result` |
 | `raw-output-option` | OBS-002 | medium | `include_raw=True` or `include_raw: true` |
-| `sdk-debug-logging` | OBS-003 | medium | `OPENAI_LOG` or `ANTHROPIC_LOG` set to `debug` or `trace` |
-| `unfiltered-vector-query` | RAG-001 | medium | `filter` or `query_filter` assigned `None` or `{}` |
+| `sdk-debug-logging` | OBS-003 | medium | `OPENAI_LOG` or `ANTHROPIC_LOG` set with `=` to `debug` or `trace` |
+| `unfiltered-vector-query` | RAG-001 | medium | `filter` or `query_filter` assigned (`=`) `None` or `{}` |
 | `prompt-secret-field` | PROMPT-001 | high | `system_prompt` or `system_message` with `api_key`, `password`, `secret` or `access_token` |
 | `tls-verification-disabled` | EGRESS-003 | high | `verify=False` or `rejectUnauthorized: false` |
 | `sensitive-url-query` | EGRESS-004 | high | `email=`, `patient_id=`, `ssn=`, `api_key=`, `access_token=` or `prompt=` after `?` or `&` |
@@ -324,7 +324,7 @@ Reading code finds most leaks. When you want runtime evidence as well, [`canary_
  ┌───────────────────────────────────────────────────────────────┐
  │ receipt bound to case, sink, scenario, SHA-256 and byte size? │──no──► inconclusive
  │ positive control shows every seeded canary to the detector?   │──no──► inconclusive
- │ the sink's allowed execution sentinel present in the capture? │──no──► inconclusive
+ │ every required execution sentinel of the case in the capture? │──no──► inconclusive
  └──────────────────────────────┬────────────────────────────────┘
                                 │ yes
                                 ▼
@@ -337,7 +337,7 @@ Reading code finds most leaks. When you want runtime evidence as well, [`canary_
                        contained_in_capture   (this capture only)
 ```
 
-Adapt [`capture-manifest.json`](skills/ai-data-leakage-guardian/assets/capture-manifest.json). It declares `"synthetic_only": true`, an environment of `local`, `test` or `staging`, a scenario ID, a policy reference and its reviewer; 2 to 32 markers, each with a unique `ADLG_CANARY_` value and a classification (overlapping values are refused); 1 to 32 sinks, each listing the markers it allows, with an approval reference; and 1 to 64 cases, each naming its sink, capture, positive control, receipt and at least one allowed execution sentinel. A sink that allows every marker cannot be a containment test, so the manifest is refused.
+Adapt [`capture-manifest.json`](skills/ai-data-leakage-guardian/assets/capture-manifest.json). It declares `"synthetic_only": true`, an environment of `local`, `test` or `staging`, a scenario ID, a policy reference and its reviewer; 2 to 32 markers, each with a unique `ADLG_CANARY_` value and a classification (overlapping values are refused); 1 to 32 sinks, each listing the markers it allows, with an approval reference; and 1 to 64 cases, each naming its sink, capture, positive control, receipt and at least one allowed execution sentinel. A case whose sink allows every marker cannot be a containment test, so the manifest is refused.
 
 ```bash
 python3 skills/ai-data-leakage-guardian/scripts/canary_audit.py --manifest synthetic-run/manifest.json --dry-run
@@ -347,7 +347,7 @@ python3 skills/ai-data-leakage-guardian/scripts/canary_audit.py --manifest synth
 
 **Receipts.** Each receipt must match the case, sink, scenario, the capture's SHA-256 and byte count, report `execution_complete`, `capture_complete` and `synthetic_only` as `true`, a positive integer `event_count`, an `instrumentation_ref` and an `observed_on` date that is not in the future. A receipt is the harness's attestation, not proof: a reviewer must still check how it was produced and what it covers.
 
-**Detection.** Exact seeded markers only, in literal bytes and through URL percent-encoding, HTML entities, JSON `\u00XX` escapes, JSON string values, base64 and base64url tokens, MIME-wrapped base64 lines and hexadecimal, up to two decoding layers deep. Work is bounded: 1 MiB per artifact, 64 tokens per view, 128 decoded views and 8 MiB of decoded bytes. A limit reached blocks `contained_in_capture`; a forbidden marker found before the limit still counts. Paraphrased or inferred data, encryption, compression, archives, images and audio are out of reach.
+**Detection.** Exact seeded markers only, in literal bytes and through URL percent-encoding, HTML entities, JSON `\u00XX` escapes, JSON string values, base64 and base64url tokens, MIME-wrapped base64 lines and hexadecimal, up to two decoding layers deep. Work is bounded: 1 MiB per artifact, 64 tokens per view, 2,048 JSON nodes and 128 JSON strings per view, 128 decoded views and 8 MiB of decoded bytes. A limit reached blocks `contained_in_capture`; a forbidden marker found before the limit still counts. Paraphrased or inferred data, encryption, compression, archives, images and audio are out of reach.
 
 **Output.** Case and sink IDs, byte counts, hashes, matched marker IDs with the encodings they were found through, validity flags, a reason, and the SHA-256 of the canonical manifest. Raw capture bytes, canary values and capture paths are left out, and the run is marked `review_required`: no observation changes the assessment by itself.
 
@@ -383,7 +383,7 @@ The same run writes `AI-DATA-LEAKAGE.md`, a `risk-register.csv` with one row per
 CSV cells that start with `=`, `+`, `-` or `@` get a leading apostrophe, so spreadsheets do not run them as formulas. Every report, export and the test plan pass through a small pattern-based redaction before they are written:
 
 - email addresses become `[REDACTED_EMAIL]` and SSN-format numbers (`NNN-NN-NNNN`) become `[REDACTED_ID]`;
-- a value after `Bearer`, or after a bare `password`, `secret`, `token` or `api_key` label followed by `:` or `=`, becomes `[REDACTED_SECRET]` up to the next space, comma or semicolon.
+- a value after `Bearer`, or after a bare `password`, `secret`, `token` or `api_key` label followed by `:` or `=`, is replaced, label and value together, by `[REDACTED_SECRET]`, the value ending at the next space, comma or semicolon.
 
 That is the whole list. Joined names (`DB_PASSWORD=`, `access_token=`), quoted JSON keys (`"password": "…"`), `api-key`, phone numbers, connection-URL passwords, private keys and provider key shapes pass through unchanged, and some ordinary text such as `logo@2x.png` is masked. Each text field is also cut to 20,000 characters. Review outputs before sharing. Nothing is sent anywhere.
 

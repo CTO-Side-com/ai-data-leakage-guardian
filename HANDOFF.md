@@ -1,9 +1,9 @@
 ---
 status: active
 phase: v1.0.0 · Publishing
-next: DLG-5 · Whole-branch review
+next: DLG-6 · Publish
 tests: local 90/90 on macOS 3.13.0 and 3.9.6 with TMPDIR on a real folder; 47/90 pass (43 errors) under the default macOS TMPDIR (2026-11-21)
-updated: 2026-11-21 00:27 +0400
+updated: 2026-11-21 00:35 +0400
 ---
 # AI Data Leakage Guardian: handoff
 
@@ -33,8 +33,9 @@ updated: 2026-11-21 00:27 +0400
 - Tests: 90 in `skills/ai-data-leakage-guardian/tests`. 90/90 on Python 3.13.0 and 3.9.6 with
   `TMPDIR` on a real folder. `docs/build_example.py` rebuilt the example on a scratch copy: only the
   random canary values and the hashes that depend on them differ from the shipped `docs/example`.
-- README: 36/36 local links and anchors resolve (scratch check); every box diagram row matches its
-  border width; no double-width characters in any text block.
+- README: 36/36 local links and anchors resolve (scratch check); box rows match their borders and
+  connectors outside boxes were checked by column after DLG-5 found one off by 8; no double-width
+  characters in any text block.
 
 ## Known problems
 
@@ -44,7 +45,7 @@ updated: 2026-11-21 00:27 +0400
   `python3 docs/build_example.py` fails the same way. Ubuntu CI is unaffected. README tells macOS
   users to set `TMPDIR`. Tenant Guardian fixed the same guard in TG-6 (refuse the file, its folder
   and links inside the working directory only).
-- **Email redaction is quadratic.** `clean()` (`scripts/guardian.py:33`): 0.29 s on 10k chars of
+- **Email redaction is quadratic.** `clean()` (`scripts/guardian.py:31`, email pattern at `:33`): 0.29 s on 10k chars of
   `a.`, 1.15 s on 20k, 4.65 s on 40k (measured 2026-11-21). Tenant Guardian TG-8 replaced the same
   pattern.
 - **Redaction is narrow.** Only emails, SSN-format IDs, `Bearer` values and bare
@@ -58,6 +59,8 @@ updated: 2026-11-21 00:27 +0400
 - Example data-flow `FLOW-MODEL` cites `assets/demo_pipeline.py` while `FLOW-TRACE` cites the full
   `skills/ai-data-leakage-guardian/assets/demo_pipeline.py` (comes from `assets/assessment-example.json`).
 - CI rebuilds the example without diffing it against `docs/example/`.
+- `claude plugin validate .` passes with two warnings, both from v1.0.0: the marketplace has no
+  `description` and the plugin has no icon (DLG-5).
 
 ## Needs you
 
@@ -70,10 +73,10 @@ updated: 2026-11-21 00:27 +0400
 | ID | Task | Status | Started | Finished |
 |---|---|---|---|---|
 | DLG-1 | Import v1.0.0 as received | done | 2026-11-21 00:16 | 2026-11-21 00:17 |
-| DLG-2 | README with ASCII art, report preview, HANDOFF | active | 2026-11-21 00:17 | |
-| DLG-3 | Rename marketplace to ctoside-leakage | done | 2026-11-21 00:25 | 2026-11-21 00:25 |
-| DLG-4 | Pin CI runner to ubuntu-24.04 | done | 2026-11-21 00:25 | 2026-11-21 00:25 |
-| DLG-5 | Whole-branch review | todo | | |
+| DLG-2 | README with ASCII art, report preview, HANDOFF | done | 2026-11-21 00:17 | 2026-11-21 00:25 |
+| DLG-3 | Rename marketplace to ctoside-leakage | done | 2026-11-21 00:24 | 2026-11-21 00:24 |
+| DLG-4 | Pin CI runner to ubuntu-24.04 | done | 2026-11-21 00:24 | 2026-11-21 00:24 |
+| DLG-5 | Whole-branch review | done | 2026-11-21 00:26 | 2026-11-21 00:35 |
 | DLG-6 | Create the GitHub repo, push, confirm CI and `gh skill install` | todo | | |
 
 ## Regenerate the README preview
@@ -82,10 +85,22 @@ Rendered from `docs/example/AI-DATA-LEAKAGE.pdf` with poppler's `pdftoppm -r 110
 then composed on a `#F4F3EF` canvas with soft shadows and quantized to 128 colours with Pillow, as
 the sibling previews are. Rebuild it whenever the example PDF changes.
 
+## Decisions
+
+- 2026-11-21 00:35 · DLG-5 review (reviewer agent, `58ca990..01b605a`): ship after fixes, no blocker. Gate
+  90/90 on 3.13.0 and 3.9.6 (real TMPDIR), example build on a copy differs only in canary values
+  and their hashes, `gh skill install --from-local` landed in every folder the README names, 3/3
+  plants caught by the README checker. Applied: workflow diagram drop moved to column 80 (S1),
+  scanner rows narrowed to the calls and `=` the patterns match (S2), no local paths in this file
+  (S3), and nits N1-N8 (report order, sentinel row, sink-allows-all wording, label masked with
+  value, JSON walk limits, `canary_audit.py --out` overwrite, tagline width, line pointer).
+  Unverified by the review: "gh 2.90 or later", the tracker import menus, whether Copilot and
+  Cursor read the git-only skill folders.
+
 ## Next steps
 
-1. Commit README, `docs/images/report-preview.png` and this file (DLG-2).
-2. Run the whole-branch review (DLG-5); apply its fixes in their own commits.
+1. (done) DLG-2 committed as `01b605a`.
+2. (done) DLG-5 review and its fixes.
 3. Create `CTO-Side-com/ai-data-leakage-guardian` (public, description and topics like the
    siblings), push `main`, wait for CI, check the badge, and install with `gh skill install` into a
    scratch `--dir` (DLG-6).
