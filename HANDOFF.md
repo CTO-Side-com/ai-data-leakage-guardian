@@ -2,15 +2,15 @@
 status: active
 phase: v1.0.0 · Published
 next: v1.0.1 candidates (Needs you)
-tests: CI 90/90 on Ubuntu 24.04 × Python 3.9/3.11/3.13, run 44812780212 green; local 90/90 on macOS 3.13.0 and 3.9.6 with TMPDIR on a real folder, 43 errors under the default macOS TMPDIR (2026-11-21)
-updated: 2026-11-21 00:36 +0400
+tests: CI 90/90 on Ubuntu 24.04 × Python 3.9/3.11/3.13, runs 44812780212 (`f61ee48`) and 44812969166 (`4c369d7`) green; local 90/90 on macOS 3.13.0 and 3.9.6 with TMPDIR on a real folder, 43 errors under the default macOS TMPDIR (2026-11-21)
+updated: 2026-11-21 00:43 +0400
 live: https://github.com/CTO-Side-com/ai-data-leakage-guardian
 ---
 # AI Data Leakage Guardian: handoff
 
 ## Current state
 
-- Published 2026-11-21 00:36: public https://github.com/CTO-Side-com/ai-data-leakage-guardian (`origin`,
+- Published 2026-11-21 00:35: public https://github.com/CTO-Side-com/ai-data-leakage-guardian (`origin`,
   branch `main`), MIT, homepage ctoside.com, topics agent-skills, ai-security, canary-testing,
   claude-code, claude-code-plugin, cursor, data-leakage, github-copilot, llm-security, privacy, rag,
   security-audit. Siblings: Tenant Guardian, SOC 2 Engineering Guardian, HIPAA Guardian.
@@ -19,7 +19,8 @@ live: https://github.com/CTO-Side-com/ai-data-leakage-guardian
   ai-data-leakage-guardian --dir <scratch>` installed the 16 skill files at `f61ee48`.
 - History: `58ca990` imports v1.0.0 exactly as received (folder dated 2026-11-20); `cd8237f`
   marketplace rename (DLG-3); `1b22d78` CI runner pin (DLG-4); `01b605a` README, report preview and
-  this file (DLG-2); `f61ee48` review fixes (DLG-5); then this release record.
+  this file (DLG-2); `f61ee48` review fixes (DLG-5); `4c369d7` release record (DLG-6, CI run 44812969166 green).
+  Last commit before this update: `4c369d7`.
 - 2026-11-21 session: README rewritten after the Tenant Guardian README, with an ASCII banner (a
   "leak" drip under LEAKAGE) and four ASCII diagrams in place of the siblings' SVG infographics, plus
   `docs/images/report-preview.png` (pages 1, 3 and 9 of the example PDF). No code, test or example
@@ -50,8 +51,8 @@ live: https://github.com/CTO-Side-com/ai-data-leakage-guardian
   `python3 docs/build_example.py` fails the same way. Ubuntu CI is unaffected. README tells macOS
   users to set `TMPDIR`. Tenant Guardian fixed the same guard in TG-6 (refuse the file, its folder
   and links inside the working directory only).
-- **Email redaction is quadratic.** `clean()` (`scripts/guardian.py:31`, email pattern at `:33`): 0.29 s on 10k chars of
-  `a.`, 1.15 s on 20k, 4.65 s on 40k (measured 2026-11-21). Tenant Guardian TG-8 replaced the same
+- **Email redaction is quadratic.** `clean()` (`scripts/guardian.py:31`, email pattern at `:33`):
+  0.29 s on 10k chars of `a.`, 1.15 s on 20k, 4.65 s on 40k (measured 2026-11-21). Tenant Guardian TG-8 replaced the same
   pattern.
 - **Redaction is narrow.** Only emails, SSN-format IDs, `Bearer` values and bare
   `password`/`secret`/`token`/`api_key` labels. `DB_PASSWORD=`, `access_token=`, quoted JSON keys,
@@ -61,11 +62,15 @@ live: https://github.com/CTO-Side-com/ai-data-leakage-guardian
   `backend/**` misses `backend/api/app.py` (fails open for that objective). README says so. Tenant
   Guardian fixed this in TG-7.
 - Scanner skip list is exact, case-sensitive folder names (`SKIP` in `scripts/guardian.py:156`).
+
+## Follow-ups
+
+- Add a marketplace `metadata.description` and a plugin icon: `claude plugin validate .` passes
+  with those two warnings, both from v1.0.0 (DLG-5). hipaa-guardian ships `.claude-plugin/icon.png`.
+- Make CI diff the rebuilt example against `docs/example/`, ignoring the random canary values and
+  the hashes that depend on them.
 - Example data-flow `FLOW-MODEL` cites `assets/demo_pipeline.py` while `FLOW-TRACE` cites the full
-  `skills/ai-data-leakage-guardian/assets/demo_pipeline.py` (comes from `assets/assessment-example.json`).
-- CI rebuilds the example without diffing it against `docs/example/`.
-- `claude plugin validate .` passes with two warnings, both from v1.0.0: the marketplace has no
-  `description` and the plugin has no icon (DLG-5).
+  `skills/ai-data-leakage-guardian/assets/demo_pipeline.py` (from `assets/assessment-example.json`).
 
 ## Needs you
 
