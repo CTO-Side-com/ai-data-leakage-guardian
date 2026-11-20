@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.0",
+  "synthetic_only": true,
+  "scenario_id": "synthetic_ai_capture_demo",
+  "environment": "local",
+  "policy_ref": "synthetic-policy-reference",
+  "policy_reviewer": "Synthetic example owner; replace with actual authorized review",
+  "markers": [
+    {
+      "id": "PUBLIC",
+      "value": "ADLG_CANARY_PUBLIC_95620b0cd37fd483439d64c8bf3dfccd",
+      "classification": "public_synthetic"
+    },
+    {
+      "id": "RESTRICTED",
+      "value": "ADLG_CANARY_RESTRICTED_cd1b7ec038622aa579da23ae50d408f8",
+      "classification": "restricted_synthetic"
+    }
+  ],
+  "sinks": [
+    {
+      "id": "model_request",
+      "allowed_markers": [
+        "PUBLIC"
+      ],
+      "approval_ref": "synthetic-policy:model-input"
+    },
+    {
+      "id": "telemetry",
+      "allowed_markers": [
+        "PUBLIC"
+      ],
+      "approval_ref": "synthetic-policy:telemetry"
+    }
+  ],
+  "cases": [
+    {
+      "id": "model_payload",
+      "sink_id": "model_request",
+      "capture_file": "captures/model.json",
+      "positive_control_file": "controls/detector-positive.json",
+      "receipt_file": "receipts/model.json",
+      "required_markers": [
+        "PUBLIC"
+      ]
+    },
+    {
+      "id": "trace_payload",
+      "sink_id": "telemetry",
+      "capture_file": "captures/telemetry.json",
+      "positive_control_file": "controls/detector-positive.json",
+      "receipt_file": "receipts/telemetry.json",
+      "required_markers": [
+        "PUBLIC"
+      ]
+    }
+  ]
+}

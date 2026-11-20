@@ -1,0 +1,266 @@
+{
+  "version": "1.0.0",
+  "reviewed_on": "2026-11-20",
+  "notice": "Original CTOside engineering objectives, not a regulatory checklist. Service-specific provider claims require current evidence.",
+  "checks": [
+    {
+      "id": "MAP-001",
+      "area": "Data inventory",
+      "title": "Classify AI inputs and derived data",
+      "objective": "Data classes and allowed purposes must be explicit for each source.",
+      "test": "Trace a synthetic confidential document and its derived fields through the AI pipeline."
+    },
+    {
+      "id": "MAP-002",
+      "area": "Data inventory",
+      "title": "Inventory model and non-model destinations",
+      "objective": "Prompts, embeddings, telemetry, tools and user output are distinct sinks.",
+      "test": "Reconcile SDK/configuration paths with a reviewed sink register."
+    },
+    {
+      "id": "MAP-003",
+      "area": "Data inventory",
+      "title": "Map transformations and intermediate copies",
+      "objective": "Chunking, redaction, summaries and retries can create retained copies.",
+      "test": "Trace a seeded canary through intermediate stages and inventory every copy."
+    },
+    {
+      "id": "MAP-004",
+      "area": "Data inventory",
+      "title": "Approve data classes per destination and purpose",
+      "objective": "A destination being trusted does not authorize every data class or use.",
+      "test": "Review each source-transform-sink edge against a named approval and its evidence."
+    },
+    {
+      "id": "PROMPT-001",
+      "area": "Prompt and context boundaries",
+      "title": "Keep credentials and protected configuration out of prompts",
+      "objective": "Model instructions must not contain operational secrets.",
+      "test": "Inspect prompt construction by reference and use synthetic secret-like markers to test exclusion."
+    },
+    {
+      "id": "PROMPT-002",
+      "area": "Prompt and context boundaries",
+      "title": "Minimize sensitive input before model submission",
+      "objective": "Only data required for the approved purpose should enter the prompt.",
+      "test": "Seed a protected field beside an allowed control and inspect the outbound payload capture."
+    },
+    {
+      "id": "PROMPT-003",
+      "area": "Prompt and context boundaries",
+      "title": "Apply redaction before external transmission",
+      "objective": "Post-response masking cannot undo a disclosure to a provider.",
+      "test": "Compare captures before and after the actual outbound boundary using synthetic markers."
+    },
+    {
+      "id": "PROMPT-004",
+      "area": "Prompt and context boundaries",
+      "title": "Bound conversation history and inherited context",
+      "objective": "Prior turns and hidden context must follow current authorization and minimization.",
+      "test": "Seed an earlier synthetic restricted turn and examine a later request to another workflow."
+    },
+    {
+      "id": "PROMPT-005",
+      "area": "Prompt and context boundaries",
+      "title": "Treat prompt confidentiality as insufficient authorization",
+      "objective": "Prompts cannot enforce access control or tool privileges alone.",
+      "test": "Test a synthetic instruction requesting a restricted field and inspect independent enforcement."
+    },
+    {
+      "id": "RAG-001",
+      "area": "Retrieval and memory",
+      "title": "Authorize documents before retrieval or context assembly",
+      "objective": "Retrieval must respect actor, tenant, document and purpose boundaries.",
+      "test": "Index authorized and restricted synthetic documents and inspect retrieval plus final context."
+    },
+    {
+      "id": "RAG-002",
+      "area": "Retrieval and memory",
+      "title": "Review embedding data and provider egress",
+      "objective": "Embedding inputs and vector stores can retain sensitive information.",
+      "test": "Trace a synthetic restricted marker into embedding requests and retained vector metadata."
+    },
+    {
+      "id": "RAG-003",
+      "area": "Retrieval and memory",
+      "title": "Protect conversation and semantic caches",
+      "objective": "Cached context and answers must not cross user, tenant or policy scope.",
+      "test": "Warm a synthetic cache under one identity and retrieve under another."
+    },
+    {
+      "id": "RAG-004",
+      "area": "Retrieval and memory",
+      "title": "Constrain citations previews and source downloads",
+      "objective": "A safe answer can still link to an unauthorized source.",
+      "test": "Review synthetic citation metadata and attempt the source-download path through authorized tests."
+    },
+    {
+      "id": "RAG-005",
+      "area": "Retrieval and memory",
+      "title": "Recheck preprocessing chunking and reranking",
+      "objective": "Derived text and reranker inputs need the same data-flow review.",
+      "test": "Track an independently seeded marker through chunks, reranking and context trimming."
+    },
+    {
+      "id": "EGRESS-001",
+      "area": "Outbound boundaries",
+      "title": "Inventory and constrain external endpoints",
+      "objective": "Dynamic destinations and proxies must remain within approved policy.",
+      "test": "Review configured endpoints and synthetic outbound captures for unregistered sinks."
+    },
+    {
+      "id": "EGRESS-002",
+      "area": "Outbound boundaries",
+      "title": "Authorize tool and agent egress independently",
+      "objective": "Model-generated arguments cannot override destination and data-class policy.",
+      "test": "Use a synthetic injection requesting export to an unapproved sink and inspect the tool gate."
+    },
+    {
+      "id": "EGRESS-003",
+      "area": "Outbound boundaries",
+      "title": "Protect transmission and provider routing configuration",
+      "objective": "Outbound transport and routing must preserve the approved boundary.",
+      "test": "Review TLS verification, custom base URLs, gateways and environment-specific routes."
+    },
+    {
+      "id": "EGRESS-004",
+      "area": "Outbound boundaries",
+      "title": "Exclude sensitive material from URLs headers and metadata",
+      "objective": "Content can escape through request metadata as well as bodies.",
+      "test": "Seed a synthetic marker and inspect body, query, headers and correlation metadata separately."
+    },
+    {
+      "id": "EGRESS-005",
+      "area": "Outbound boundaries",
+      "title": "Review fallback retry batch and failover paths",
+      "objective": "Fallback and error handling must retain the original data policy.",
+      "test": "Force a synthetic primary failure and inspect all retry and fallback captures."
+    },
+    {
+      "id": "OBS-001",
+      "area": "Observability",
+      "title": "Minimize or redact prompt and input logs",
+      "objective": "Diagnostic logging must not become an unauthorized sensitive-data sink.",
+      "test": "Capture a synthetic request and verify the log payload and its access boundary."
+    },
+    {
+      "id": "OBS-002",
+      "area": "Observability",
+      "title": "Review model outputs and raw tool traces",
+      "objective": "Generated text and intermediate tool results may contain protected data.",
+      "test": "Seed a restricted synthetic tool response and inspect debug and completion captures."
+    },
+    {
+      "id": "OBS-003",
+      "area": "Observability",
+      "title": "Review SDK tracing and debug configuration",
+      "objective": "SDK defaults and debug switches need environment-specific verification.",
+      "test": "Inspect actual approved configuration and synthetic traces for the deployed mode."
+    },
+    {
+      "id": "OBS-004",
+      "area": "Observability",
+      "title": "Constrain analytics and error-reporting payloads",
+      "objective": "User analytics and error tools should receive only approved fields.",
+      "test": "Trigger a synthetic exception and inspect analytics events, breadcrumbs and attachments."
+    },
+    {
+      "id": "OBS-005",
+      "area": "Observability",
+      "title": "Apply access retention and deletion to observability stores",
+      "objective": "Redacted application output does not govern trace-store access or retention.",
+      "test": "Review provider settings by dated evidence and exercise synthetic deletion where authorized."
+    },
+    {
+      "id": "PROVIDER-001",
+      "area": "Provider and service governance",
+      "title": "Confirm approved service model and account scope",
+      "objective": "Approval must apply to the exact service, deployment and data use.",
+      "test": "Reconcile configured service/model/account references with a reviewed approval record."
+    },
+    {
+      "id": "PROVIDER-002",
+      "area": "Provider and service governance",
+      "title": "Verify retention and training-use statements separately",
+      "objective": "Training exclusion and retention are distinct claims requiring current evidence.",
+      "test": "Record current service-specific documentation and configuration without inferring defaults."
+    },
+    {
+      "id": "PROVIDER-003",
+      "area": "Provider and service governance",
+      "title": "Review regional routing and subprocessors",
+      "objective": "Residency and processing locations require evidence for the actual setup.",
+      "test": "Review configured regions, routing layers and relevant subprocessor records."
+    },
+    {
+      "id": "PROVIDER-004",
+      "area": "Provider and service governance",
+      "title": "Review agreements access roles and shared responsibilities",
+      "objective": "Technical settings and contractual approval support different conclusions.",
+      "test": "Request the responsible owner's approved evidence for the exact provider and service."
+    },
+    {
+      "id": "PROVIDER-005",
+      "area": "Provider and service governance",
+      "title": "Reassess provider configuration and policy changes",
+      "objective": "A prior approval may not cover a new model, feature or fallback provider.",
+      "test": "Trace a synthetic configuration change to a renewed scoped review."
+    },
+    {
+      "id": "TOOL-001",
+      "area": "Outputs and agent tools",
+      "title": "Authorize final responses for the actual recipient",
+      "objective": "Answers and summaries must follow the recipient's access and purpose.",
+      "test": "Seed authorized and restricted records and inspect the recipient-visible output."
+    },
+    {
+      "id": "TOOL-002",
+      "area": "Outputs and agent tools",
+      "title": "Minimize tool results before model context",
+      "objective": "An authorized tool can still return excessive protected fields.",
+      "test": "Inspect synthetic raw and minimized tool captures before context assembly."
+    },
+    {
+      "id": "TOOL-003",
+      "area": "Outputs and agent tools",
+      "title": "Constrain streamed output attachments and previews",
+      "objective": "Partial streams and nontext outputs have separate disclosure paths.",
+      "test": "Use synthetic markers in streamed chunks, files and previews; document unsupported media."
+    },
+    {
+      "id": "TOOL-004",
+      "area": "Outputs and agent tools",
+      "title": "Protect generated exports and shared conversation links",
+      "objective": "Persisted outputs and links need recipient-specific access boundaries.",
+      "test": "Review synthetic export/share creation and retrieval through an approved fixture."
+    },
+    {
+      "id": "LIFE-001",
+      "area": "Datasets and lifecycle",
+      "title": "Apply retention to inputs outputs caches and captures",
+      "objective": "Deletion and legal retention must cover derived and intermediate artifacts.",
+      "test": "Map a synthetic record to retained copies and test approved disposal paths."
+    },
+    {
+      "id": "LIFE-002",
+      "area": "Datasets and lifecycle",
+      "title": "Review training evaluation and fine-tuning datasets",
+      "objective": "Operational data cannot enter datasets without its own approved purpose.",
+      "test": "Trace synthetic restricted markers through dataset creation and file-upload paths."
+    },
+    {
+      "id": "LIFE-003",
+      "area": "Datasets and lifecycle",
+      "title": "Review support incident and human-review access",
+      "objective": "Human review and incident workflows can create new recipients and copies.",
+      "test": "Follow a synthetic support case and inspect approved exports and access records."
+    },
+    {
+      "id": "LIFE-004",
+      "area": "Datasets and lifecycle",
+      "title": "Track regressions after prompt model and integration changes",
+      "objective": "Data policy should survive changes to prompts, retrieval, tools and providers.",
+      "test": "Run scoped synthetic captures after a reviewed change and retain prior evidence."
+    }
+  ]
+}

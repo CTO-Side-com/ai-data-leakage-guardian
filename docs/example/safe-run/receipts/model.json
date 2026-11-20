@@ -1,0 +1,13 @@
+{
+  "scenario_id": "synthetic_ai_capture_demo",
+  "case_id": "model_payload",
+  "sink_id": "model_request",
+  "capture_sha256": "a0a040e13736cd88493f3523a540de19a4ee5aa8889d240e388483775b899832",
+  "capture_bytes": 124,
+  "event_count": 1,
+  "execution_complete": true,
+  "capture_complete": true,
+  "synthetic_only": true,
+  "observed_on": "2026-11-20",
+  "instrumentation_ref": "Owned offline demo_pipeline.py synthetic payload writer; not a live SDK interception"
+}

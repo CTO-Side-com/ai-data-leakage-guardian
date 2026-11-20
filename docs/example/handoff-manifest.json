@@ -1,0 +1,22 @@
+{
+  "notice": "Scoped AI data-leakage assessment. Not a guarantee of confidentiality, a production DLP gateway or compliance certification.",
+  "raw_evidence_included": false,
+  "files": [
+    {
+      "path": "AI-DATA-LEAKAGE.md",
+      "sha256": "8f246bc064f6a55c81a32a4544807371a70cc4e176d8f47769996912b3365963"
+    },
+    {
+      "path": "assessment-redacted.json",
+      "sha256": "9f18f17e0ecb189d7895e02d2c781e45f523bfe6e0391cd0081183a9c1290419"
+    },
+    {
+      "path": "risk-register.csv",
+      "sha256": "43e1074fbb160b3abd2231969afd4741031877bad1b32bd1174e18e173f4aa17"
+    },
+    {
+      "path": "AI-DATA-LEAKAGE.pdf",
+      "sha256": "b53599b08b19036b722c6fea8673c5ce63f87fe88d3887e05028c11287c55ea3"
+    }
+  ]
+}

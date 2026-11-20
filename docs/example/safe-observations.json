@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.0",
+  "observed_on": "2026-11-20",
+  "environment": "local",
+  "status": "review_required",
+  "manifest_sha256": "a5c171acc3e865a902d9acd37164a6f8c5e69d8381b9dac57c70bd1ef80e71e7",
+  "cases": [
+    {
+      "case_id": "model_payload",
+      "sink_id": "model_request",
+      "result": "contained_in_capture",
+      "capture_sha256": "a0a040e13736cd88493f3523a540de19a4ee5aa8889d240e388483775b899832",
+      "capture_bytes": 124,
+      "matches": [
+        {
+          "marker_id": "PUBLIC",
+          "transforms": [
+            "literal",
+            "literal/json-string"
+          ]
+        }
+      ],
+      "unapproved_marker_ids": [],
+      "receipt_valid": true,
+      "positive_control_valid": true,
+      "execution_sentinel_present": true,
+      "analysis_complete_within_supported_limits": true,
+      "reason": "No disallowed seeded marker was observed in this specific complete reviewed capture under supported representations."
+    },
+    {
+      "case_id": "trace_payload",
+      "sink_id": "telemetry",
+      "result": "contained_in_capture",
+      "capture_sha256": "a0a040e13736cd88493f3523a540de19a4ee5aa8889d240e388483775b899832",
+      "capture_bytes": 124,
+      "matches": [
+        {
+          "marker_id": "PUBLIC",
+          "transforms": [
+            "literal",
+            "literal/json-string"
+          ]
+        }
+      ],
+      "unapproved_marker_ids": [],
+      "receipt_valid": true,
+      "positive_control_valid": true,
+      "execution_sentinel_present": true,
+      "analysis_complete_within_supported_limits": true,
+      "reason": "No disallowed seeded marker was observed in this specific complete reviewed capture under supported representations."
+    }
+  ],
+  "notice": "Offline synthetic capture observations only. Receipt truth, policy authority and instrumentation completeness require human review. No network requests or assessment updates were made."
+}

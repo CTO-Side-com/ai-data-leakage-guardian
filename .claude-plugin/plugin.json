@@ -1,0 +1,16 @@
+{
+  "name": "ai-data-leakage-guardian",
+  "version": "1.0.0",
+  "description": "Evidence-first AI data-flow reviews, offline synthetic capture auditing, reports and remediation tasks.",
+  "author": {
+    "name": "CTOside"
+  },
+  "license": "MIT",
+  "keywords": [
+    "ai-security",
+    "data-leakage",
+    "privacy",
+    "canary-testing",
+    "evidence"
+  ]
+}

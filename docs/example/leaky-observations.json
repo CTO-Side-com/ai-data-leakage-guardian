@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0",
+  "observed_on": "2026-11-20",
+  "environment": "local",
+  "status": "review_required",
+  "manifest_sha256": "be47d95e8e3e979de7ef8c67cf88819e281175495fe9081a2b4b7bc7e39fb0b4",
+  "cases": [
+    {
+      "case_id": "model_payload",
+      "sink_id": "model_request",
+      "result": "leak_observed",
+      "capture_sha256": "6db2a34459292140c26e20c3918e9938be50875df98f4cc48ad5139b98a56c24",
+      "capture_bytes": 261,
+      "matches": [
+        {
+          "marker_id": "PUBLIC",
+          "transforms": [
+            "literal",
+            "literal/json-string"
+          ]
+        },
+        {
+          "marker_id": "RESTRICTED",
+          "transforms": [
+            "literal/base64",
+            "literal/base64/json-string"
+          ]
+        }
+      ],
+      "unapproved_marker_ids": [
+        "RESTRICTED"
+      ],
+      "receipt_valid": true,
+      "positive_control_valid": true,
+      "execution_sentinel_present": true,
+      "analysis_complete_within_supported_limits": true,
+      "reason": "A known synthetic marker was observed at a destination that disallows it under the supplied policy."
+    },
+    {
+      "case_id": "trace_payload",
+      "sink_id": "telemetry",
+      "result": "leak_observed",
+      "capture_sha256": "b292e8af2041e9eb9d8a792107856e3c5853f566fa2015a6f81e6937e88832d7",
+      "capture_bytes": 169,
+      "matches": [
+        {
+          "marker_id": "PUBLIC",
+          "transforms": [
+            "literal",
+            "literal/json-string"
+          ]
+        },
+        {
+          "marker_id": "RESTRICTED",
+          "transforms": [
+            "literal",
+            "literal/json-string"
+          ]
+        }
+      ],
+      "unapproved_marker_ids": [
+        "RESTRICTED"
+      ],
+      "receipt_valid": true,
+      "positive_control_valid": true,
+      "execution_sentinel_present": true,
+      "analysis_complete_within_supported_limits": true,
+      "reason": "A known synthetic marker was observed at a destination that disallows it under the supplied policy."
+    }
+  ],
+  "notice": "Offline synthetic capture observations only. Receipt truth, policy authority and instrumentation completeness require human review. No network requests or assessment updates were made."
+}

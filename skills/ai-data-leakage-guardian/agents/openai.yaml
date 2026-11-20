@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Data Leakage Guardian"
+  short_description: "Trace and test sensitive data leakage in AI systems"
+  default_prompt: "Use $ai-data-leakage-guardian to review this AI application and produce a scoped data-flow map, leakage findings and synthetic regression evidence."

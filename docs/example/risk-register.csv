@@ -1,0 +1,38 @@
+Check,Title,Status,Severity,Owner,Due,Action,Retest
+MAP-001,Classify AI inputs and derived data,insufficient_evidence,,,,Collect evidence,Trace a synthetic confidential document and its derived fields through the AI pipeline.
+MAP-002,Inventory model and non-model destinations,insufficient_evidence,,,,Collect evidence,Reconcile SDK/configuration paths with a reviewed sink register.
+MAP-003,Map transformations and intermediate copies,insufficient_evidence,,,,Collect evidence,Trace a seeded canary through intermediate stages and inventory every copy.
+MAP-004,Approve data classes per destination and purpose,insufficient_evidence,,,,Collect evidence,Review each source-transform-sink edge against a named approval and its evidence.
+PROMPT-001,Keep credentials and protected configuration out of prompts,insufficient_evidence,,,,Collect evidence,Inspect prompt construction by reference and use synthetic secret-like markers to test exclusion.
+PROMPT-002,Minimize sensitive input before model submission,insufficient_evidence,,,,Collect evidence,Seed a protected field beside an allowed control and inspect the outbound payload capture.
+PROMPT-003,Apply redaction before external transmission,confirmed_gap,high,Synthetic fixture owner,,"Remove the restricted fixture field before constructing the model-bound payload, including encoded attachments.","Repeat the approved synthetic capture with valid receipts, complete detector-positive controls and an allowed execution sentinel; verify the forbidden canary is absent at this exact sink."
+PROMPT-004,Bound conversation history and inherited context,insufficient_evidence,,,,Collect evidence,Seed an earlier synthetic restricted turn and examine a later request to another workflow.
+PROMPT-005,Treat prompt confidentiality as insufficient authorization,insufficient_evidence,,,,Collect evidence,Test a synthetic instruction requesting a restricted field and inspect independent enforcement.
+RAG-001,Authorize documents before retrieval or context assembly,insufficient_evidence,,,,Collect evidence,Index authorized and restricted synthetic documents and inspect retrieval plus final context.
+RAG-002,Review embedding data and provider egress,insufficient_evidence,,,,Collect evidence,Trace a synthetic restricted marker into embedding requests and retained vector metadata.
+RAG-003,Protect conversation and semantic caches,insufficient_evidence,,,,Collect evidence,Warm a synthetic cache under one identity and retrieve under another.
+RAG-004,Constrain citations previews and source downloads,insufficient_evidence,,,,Collect evidence,Review synthetic citation metadata and attempt the source-download path through authorized tests.
+RAG-005,Recheck preprocessing chunking and reranking,insufficient_evidence,,,,Collect evidence,"Track an independently seeded marker through chunks, reranking and context trimming."
+EGRESS-001,Inventory and constrain external endpoints,insufficient_evidence,,,,Collect evidence,Review configured endpoints and synthetic outbound captures for unregistered sinks.
+EGRESS-002,Authorize tool and agent egress independently,insufficient_evidence,,,,Collect evidence,Use a synthetic injection requesting export to an unapproved sink and inspect the tool gate.
+EGRESS-003,Protect transmission and provider routing configuration,insufficient_evidence,,,,Collect evidence,"Review TLS verification, custom base URLs, gateways and environment-specific routes."
+EGRESS-004,Exclude sensitive material from URLs headers and metadata,insufficient_evidence,,,,Collect evidence,"Seed a synthetic marker and inspect body, query, headers and correlation metadata separately."
+EGRESS-005,Review fallback retry batch and failover paths,insufficient_evidence,,,,Collect evidence,Force a synthetic primary failure and inspect all retry and fallback captures.
+OBS-001,Minimize or redact prompt and input logs,confirmed_gap,high,Synthetic fixture owner,,Allowlist trace fields and redact the restricted fixture field before trace export.,"Repeat the approved synthetic capture with valid receipts, complete detector-positive controls and an allowed execution sentinel; verify the forbidden canary is absent at this exact sink."
+OBS-002,Review model outputs and raw tool traces,insufficient_evidence,,,,Collect evidence,Seed a restricted synthetic tool response and inspect debug and completion captures.
+OBS-003,Review SDK tracing and debug configuration,insufficient_evidence,,,,Collect evidence,Inspect actual approved configuration and synthetic traces for the deployed mode.
+OBS-004,Constrain analytics and error-reporting payloads,insufficient_evidence,,,,Collect evidence,"Trigger a synthetic exception and inspect analytics events, breadcrumbs and attachments."
+OBS-005,Apply access retention and deletion to observability stores,insufficient_evidence,,,,Collect evidence,Review provider settings by dated evidence and exercise synthetic deletion where authorized.
+PROVIDER-001,Confirm approved service model and account scope,insufficient_evidence,,,,Collect evidence,Reconcile configured service/model/account references with a reviewed approval record.
+PROVIDER-002,Verify retention and training-use statements separately,insufficient_evidence,,,,Collect evidence,Record current service-specific documentation and configuration without inferring defaults.
+PROVIDER-003,Review regional routing and subprocessors,insufficient_evidence,,,,Collect evidence,"Review configured regions, routing layers and relevant subprocessor records."
+PROVIDER-004,Review agreements access roles and shared responsibilities,insufficient_evidence,,,,Collect evidence,Request the responsible owner's approved evidence for the exact provider and service.
+PROVIDER-005,Reassess provider configuration and policy changes,insufficient_evidence,,,,Collect evidence,Trace a synthetic configuration change to a renewed scoped review.
+TOOL-001,Authorize final responses for the actual recipient,insufficient_evidence,,,,Collect evidence,Seed authorized and restricted records and inspect the recipient-visible output.
+TOOL-002,Minimize tool results before model context,insufficient_evidence,,,,Collect evidence,Inspect synthetic raw and minimized tool captures before context assembly.
+TOOL-003,Constrain streamed output attachments and previews,insufficient_evidence,,,,Collect evidence,"Use synthetic markers in streamed chunks, files and previews; document unsupported media."
+TOOL-004,Protect generated exports and shared conversation links,insufficient_evidence,,,,Collect evidence,Review synthetic export/share creation and retrieval through an approved fixture.
+LIFE-001,Apply retention to inputs outputs caches and captures,insufficient_evidence,,,,Collect evidence,Map a synthetic record to retained copies and test approved disposal paths.
+LIFE-002,Review training evaluation and fine-tuning datasets,insufficient_evidence,,,,Collect evidence,Trace synthetic restricted markers through dataset creation and file-upload paths.
+LIFE-003,Review support incident and human-review access,insufficient_evidence,,,,Collect evidence,Follow a synthetic support case and inspect approved exports and access records.
+LIFE-004,Track regressions after prompt model and integration changes,insufficient_evidence,,,,Collect evidence,Run scoped synthetic captures after a reviewed change and retain prior evidence.

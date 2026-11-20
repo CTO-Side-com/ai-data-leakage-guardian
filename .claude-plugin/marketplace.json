@@ -1,0 +1,17 @@
+{
+  "name": "ctoside",
+  "owner": {
+    "name": "CTOside"
+  },
+  "metadata": {
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "ai-data-leakage-guardian",
+      "source": "./",
+      "version": "1.0.0",
+      "description": "Evidence-first AI data-flow reviews, offline synthetic capture auditing, reports and remediation tasks."
+    }
+  ]
+}
