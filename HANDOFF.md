@@ -1,9 +1,9 @@
 ---
-status: active
+status: done
 phase: v1.0.0 · Published
-next: v1.0.1 candidates (Needs you)
+next: none planned
 tests: CI 90/90 on Ubuntu 24.04 × Python 3.9/3.11/3.13, runs 44812780212 (`f61ee48`) and 44812969166 (`4c369d7`) green; local 90/90 on macOS 3.13.0 and 3.9.6 with TMPDIR on a real folder, 43 errors under the default macOS TMPDIR (2026-11-21)
-updated: 2026-11-21 00:43 +0400
+updated: 2026-11-21 00:44 +0400
 live: https://github.com/CTO-Side-com/ai-data-leakage-guardian
 ---
 # AI Data Leakage Guardian: handoff
@@ -74,9 +74,9 @@ live: https://github.com/CTO-Side-com/ai-data-leakage-guardian
 
 ## Needs you
 
-- [ ] 2026-11-21 · Port Tenant Guardian's v1.0.1 fixes (output guard, recursive `**` in recheck,
+- [x] 2026-11-21 · Port Tenant Guardian's v1.0.1 fixes (output guard, recursive `**` in recheck,
   linear and wider redaction, macOS CI job) as v1.0.1 here? (recommended: yes, as one release with
-  tests watched red first)
+  tests watched red first) — answered 2026-11-21 00:44: no.
 
 ## Tasks
 
@@ -97,6 +97,9 @@ the sibling previews are. Rebuild it whenever the example PDF changes.
 
 ## Decisions
 
+- 2026-11-21 00:44 · v1.0.1 port of the Tenant Guardian fixes declined. The Known problems stay as
+  documented; the README already tells macOS users to set `TMPDIR` and lists the exact redaction
+  and recheck behaviour. No further work planned.
 - 2026-11-21 00:35 · DLG-5 review (reviewer agent, `58ca990..01b605a`): ship after fixes, no blocker. Gate
   90/90 on 3.13.0 and 3.9.6 (real TMPDIR), example build on a copy differs only in canary values
   and their hashes, `gh skill install --from-local` landed in every folder the README names, 3/3
@@ -109,6 +112,4 @@ the sibling previews are. Rebuild it whenever the example PDF changes.
 
 ## Next steps
 
-1. Decide the Needs-you item (port Tenant Guardian v1.0.1 fixes as v1.0.1 here).
-2. If yes: fix the output guard, recheck `**`, redaction (linear, wider), each with a test watched
-   red first; add a macOS CI job; bump the manifests to 1.0.1; update README and this file.
+None planned. Reopen from Known problems and Follow-ups if that changes.
