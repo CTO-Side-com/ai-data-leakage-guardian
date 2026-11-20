@@ -1,20 +1,25 @@
 ---
 status: active
-phase: v1.0.0 · Publishing
-next: DLG-6 · Publish
-tests: local 90/90 on macOS 3.13.0 and 3.9.6 with TMPDIR on a real folder; 47/90 pass (43 errors) under the default macOS TMPDIR (2026-11-21)
-updated: 2026-11-21 00:35 +0400
+phase: v1.0.0 · Published
+next: v1.0.1 candidates (Needs you)
+tests: CI 90/90 on Ubuntu 24.04 × Python 3.9/3.11/3.13, run 44812780212 green; local 90/90 on macOS 3.13.0 and 3.9.6 with TMPDIR on a real folder, 43 errors under the default macOS TMPDIR (2026-11-21)
+updated: 2026-11-21 00:36 +0400
+live: https://github.com/CTO-Side-com/ai-data-leakage-guardian
 ---
 # AI Data Leakage Guardian: handoff
 
 ## Current state
 
-- Local git repository on `main`, not yet pushed. Target: public
-  `https://github.com/CTO-Side-com/ai-data-leakage-guardian`, homepage ctoside.com, like the siblings
-  Tenant Guardian, SOC 2 Engineering Guardian and HIPAA Guardian (all public in CTO-Side-com).
+- Published 2026-11-21 00:36: public https://github.com/CTO-Side-com/ai-data-leakage-guardian (`origin`,
+  branch `main`), MIT, homepage ctoside.com, topics agent-skills, ai-security, canary-testing,
+  claude-code, claude-code-plugin, cursor, data-leakage, github-copilot, llm-security, privacy, rag,
+  security-audit. Siblings: Tenant Guardian, SOC 2 Engineering Guardian, HIPAA Guardian.
+- CI run 44812780212 on `f61ee48`: green on all 3 jobs (90 tests and the example build each); the
+  README badge reads "passing". `gh skill install CTO-Side-com/ai-data-leakage-guardian
+  ai-data-leakage-guardian --dir <scratch>` installed the 16 skill files at `f61ee48`.
 - History: `58ca990` imports v1.0.0 exactly as received (folder dated 2026-11-20); `cd8237f`
-  marketplace rename (DLG-3); `1b22d78` CI runner pin (DLG-4); then the README, report preview and
-  this file (DLG-2).
+  marketplace rename (DLG-3); `1b22d78` CI runner pin (DLG-4); `01b605a` README, report preview and
+  this file (DLG-2); `f61ee48` review fixes (DLG-5); then this release record.
 - 2026-11-21 session: README rewritten after the Tenant Guardian README, with an ASCII banner (a
   "leak" drip under LEAKAGE) and four ASCII diagrams in place of the siblings' SVG infographics, plus
   `docs/images/report-preview.png` (pages 1, 3 and 9 of the example PDF). No code, test or example
@@ -77,7 +82,7 @@ updated: 2026-11-21 00:35 +0400
 | DLG-3 | Rename marketplace to ctoside-leakage | done | 2026-11-21 00:24 | 2026-11-21 00:24 |
 | DLG-4 | Pin CI runner to ubuntu-24.04 | done | 2026-11-21 00:24 | 2026-11-21 00:24 |
 | DLG-5 | Whole-branch review | done | 2026-11-21 00:26 | 2026-11-21 00:35 |
-| DLG-6 | Create the GitHub repo, push, confirm CI and `gh skill install` | todo | | |
+| DLG-6 | Create the GitHub repo, push, confirm CI and `gh skill install` | done | 2026-11-21 00:35 | 2026-11-21 00:36 |
 
 ## Regenerate the README preview
 
@@ -99,9 +104,6 @@ the sibling previews are. Rebuild it whenever the example PDF changes.
 
 ## Next steps
 
-1. (done) DLG-2 committed as `01b605a`.
-2. (done) DLG-5 review and its fixes.
-3. Create `CTO-Side-com/ai-data-leakage-guardian` (public, description and topics like the
-   siblings), push `main`, wait for CI, check the badge, and install with `gh skill install` into a
-   scratch `--dir` (DLG-6).
-4. Record the CI run and live URL in the front matter and Current state.
+1. Decide the Needs-you item (port Tenant Guardian v1.0.1 fixes as v1.0.1 here).
+2. If yes: fix the output guard, recheck `**`, redaction (linear, wider), each with a test watched
+   red first; add a macOS CI job; bump the manifests to 1.0.1; update README and this file.
